@@ -5,9 +5,13 @@ from database import get_db
 from models import User
 from schemas import(
     UserCreate,
-    UserResponse
+    UserResponse,
+    UserLogin
 )
-from utils import hash_password
+from utils import (hash_password,
+                   verify_password,
+                   create_access_token,
+                   get_current_user)
 
 router = APIRouter(
     prefix="/users",
@@ -41,3 +45,41 @@ def create_user(user:UserCreate,
     db.refresh(new_user)
 
     return new_user
+
+#=======================LOGIN=================================
+@router.post('/login')
+def login(user_data:UserLogin,
+          db:Session=Depends(get_db)):
+    
+    user = db.query(User).filter(User.email == user_data.email).first()
+
+    if not user:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid Credintials"
+        )
+    
+    is_valid = verify_password(
+        user_data.password,
+        user.password
+    )
+
+    if not is_valid:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid Credintials"
+        )
+    
+    token = create_access_token(
+       { "user_id":user.id}
+    )
+
+    return {
+        "access_token": token
+    }
+
+
+@router.get('/me',response_model=UserResponse)
+def get_me(current_user:User = Depends(get_current_user)):
+
+    return current_user
