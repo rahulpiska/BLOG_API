@@ -21,3 +21,34 @@ class UserResponse(BaseModel):
 class UserLogin(BaseModel):
     email: EmailStr
     password : str
+
+
+class PostCreate(BaseModel):
+    title: str
+    content:str
+
+class PostResponse(BaseModel):
+    id:int
+    title:str
+    content:str
+    user_id:int
+    created_at: datetime
+    updated_at:datetime
+
+    class config:
+        from_attributes=True
+
+
+class PostWithUserResponse(BaseModel):
+    id:int
+    title:str
+    content:str
+
+    owner : UserResponse
+
+    class config:
+        from_attributes=True
+
+class PostUpdate(BaseModel):
+    title: str | None = None
+    content:str | None = None
