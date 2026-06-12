@@ -52,3 +52,20 @@ class PostWithUserResponse(BaseModel):
 class PostUpdate(BaseModel):
     title: str | None = None
     content:str | None = None
+
+class CommentCreate(BaseModel):
+    text:str
+
+class CommentResponse(BaseModel):
+    id: int
+    text: str
+    post_id :int
+    user_id: int
+    created_at: datetime
+
+    class config:
+        from_attributes = True
+
+
+class UpdateComment(BaseModel):
+    text:str

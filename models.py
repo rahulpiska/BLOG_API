@@ -1,4 +1,4 @@
-from sqlalchemy import Column,String,Integer,ForeignKey,DateTime,Text
+from sqlalchemy import Column,String,Integer,ForeignKey,DateTime,Text,UniqueConstraint
 
 from sqlalchemy.orm import relationship
 
@@ -100,6 +100,14 @@ class Comment(Base):
 
 class Like(Base):
     __tablename__ = "likes"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "user_id",
+            "post_id",
+            name = "unique_user_post_like"
+        ),
+    )
 
     id = Column(Integer,primary_key=True)
 
