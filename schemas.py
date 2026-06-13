@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from datetime import datetime
 
 
@@ -69,3 +69,26 @@ class CommentResponse(BaseModel):
 
 class UpdateComment(BaseModel):
     text:str
+
+class UserInfo(BaseModel):
+    id:int
+    name:str
+
+    model_config = ConfigDict(
+        from_attributes= True
+    )
+
+class PostDetailResponse(BaseModel):
+    id:int
+    title:str
+    content: str
+    
+    owner: UserInfo
+    
+    likes_count:int
+    comments_count: int
+
+    model_config = ConfigDict(
+        from_attributes=True
+    )
+
