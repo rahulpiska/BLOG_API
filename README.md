@@ -49,6 +49,54 @@ BLOG_API/
 └── README.md
 ```
 
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/rahulpiska/BLOG_API.git
+```
+
+Create virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+Activate virtual environment:
+
+```bash
+.venv\Scripts\activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Create `.env` file:
+
+```env
+DATABASE_URL=mysql+pymysql://username:password@localhost/blog_api_db
+
+SECRET_KEY=your_secret_key
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+```
+
+Run the application:
+
+```bash
+uvicorn main:app --reload
+```
+
+Open Swagger UI:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
 ## API Endpoints
 
 ### Authentication
